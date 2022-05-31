@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class Secondpage extends StatefulWidget {
-  final String? barcode;
+  final Barcode? barcode;
   Secondpage({Key? key, required this.barcode}) : super(key: key);
 
   @override
@@ -11,13 +11,13 @@ class Secondpage extends StatefulWidget {
 }
 
 class _SecondpageState extends State<Secondpage> {
-  Barcode? barcode;
+  // Barcode? barcode;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Column(
-          children: [Text("${barcode?.code}")],
+          children: [Text("${widget.barcode!.code}")],
         ),
       ),
     );

@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() {
   runApp(const MaterialApp(
     home: Qrcode(),
+    debugShowCheckedModeBanner: false,
   ));
 }
 
@@ -22,11 +23,6 @@ class _QrcodeState extends State<Qrcode> {
   final qrkey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
   Barcode? barcode;
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,34 +39,10 @@ class _QrcodeState extends State<Qrcode> {
             Positioned(top: 20, child: buildcontrolsbuttons()),
             // SavestdeId.savestdid("${barcode?.code}"),
             //  Positioned(bottom: 40, child: Idnum()),
-
-            barcode != null
-                ? mmmm()
-                // ?
-                // Future.delayed(Duration.zero, () async {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) =>
-                //             Secondpage(barcode: barcode!.code)))
-                : damn()
           ],
         ),
       ),
     );
-  }
-
-  mmmm() {
-    print("barcode ${barcode?.code}");
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (context) => Secondpage(barcode: barcode!.code)));
-    return buildresult();
-  }
-
-  dynamic damn() {
-    return Text("cfcfcfd");
   }
 
   Widget buildcontrolsbuttons() => Container(
@@ -148,32 +120,38 @@ class _QrcodeState extends State<Qrcode> {
               context,
               MaterialPageRoute(
                   builder: (context) => Secondpage(
-                        barcode: barcode.code,
+                        barcode: barcode,
                       )));
         }));
   }
-}
 
-class SavestdeId {
-  static SharedPreferences? _preferences;
-  static Future init() async {
-    _preferences = await SharedPreferences.getInstance();
-  }
-
-  static Future<bool>? savestdid(String stdid) {
-    print("stdid $stdid");
-    // var result = await _preferences?.setString();
-    var result = _preferences?.setString("stdid", stdid);
-    print("whatever $result");
-    return result;
-  }
-
-  static getstdid() {
-    return _preferences?.getString("stdid");
-  }
-
-  static delectstdId() async {
-    var result = await _preferences?.remove("stdid");
-    print(result);
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }
+
+// class SavestdeId {
+//   static SharedPreferences? _preferences;
+//   static Future init() async {
+//     _preferences = await SharedPreferences.getInstance();
+//   }
+
+//   static Future<bool>? savestdid(String stdid) {
+//     print("stdid $stdid");
+//     // var result = await _preferences?.setString();
+//     var result = _preferences?.setString("stdid", stdid);
+//     print("whatever $result");
+//     return result;
+//   }
+
+//   static getstdid() {
+//     return _preferences?.getString("stdid");
+//   }
+
+//   static delectstdId() async {
+//     var result = await _preferences?.remove("stdid");
+//     print(result);
+//   }
+// }
