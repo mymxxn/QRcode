@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MaterialApp(
-    home: Qrcode(),
+    home: Secondpage(),
     debugShowCheckedModeBanner: false,
   ));
 }
@@ -103,7 +103,7 @@ class _QrcodeState extends State<Qrcode> {
 
   Widget buildQrView(BuildContext context) => QRView(
         key: qrkey,
-        onQRViewCreated: onQRViewcreated,
+        onQRViewCreated: _onQRViewCreated,
         overlay: QrScannerOverlayShape(
           // cutOutSize: MediaQuery.of(context).size.width * 0.5,
           borderWidth: 0,
@@ -111,18 +111,24 @@ class _QrcodeState extends State<Qrcode> {
           overlayColor: Colors.white,
         ),
       );
-  void onQRViewcreated(QRViewController controller) {
-    setState(() => this.controller = controller);
-    controller.scannedDataStream.listen((barcode) => setState(() {
-          this.barcode = barcode;
-          print(barcode.code);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Secondpage(
-                        barcode: barcode,
-                      )));
-        }));
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      barcode = scanData;
+      SecondPageRoute();
+    });
+  }
+
+  SecondPageRoute() async {
+    controller?.pauseCamera();
+    var value = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return Secondpage();
+        },
+      ),
+    ).then((value) => controller?.resumeCamera());
   }
 
   @override
